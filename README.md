@@ -22,9 +22,10 @@ src/
     styles/main.css      Layout, responsive styles and print rules
     js/app.js            Page initialization and navigation guards
     js/components/       Shared navigation
-    js/pages/            Calendar, catalogue, calculators, ledger and sharing
+    js/pages/            Calendar, catalogue, hotel guide, checklist, ledger and sharing
     js/lib/              Shared data access, calculations and utilities
     js/data/trip.js       Fixed itinerary and catalogue
+    js/data/hotels.js     Sourced hotel shortlist and room-budget calculations
 scripts/                 Static build and local development server
 database/                Versioned Supabase schema
 tests/                   Node test suite
@@ -44,11 +45,11 @@ Only three app-specific tables are exposed to the anonymous role:
 
 - `thailand_placements`: one UUID per calendar occurrence, including custom and per-entry edited activity details.
 - `thailand_expenses`: one UUID per expense, with the fixed crew's payer and split participants.
-- `thailand_settings`: one key per calculator input, booking flag and checklist tick (48 keys).
+- `thailand_settings`: checklist ticks and legacy settings (48 keys retained for compatibility).
 
 Explicit grants, row-level policies and value constraints are in `database/001_thailand_shared.sql`. It also defines transaction-based clear/reset/import functions using caller privileges. Existing unrelated tables and their policies are untouched.
 
-The migration has been applied to the confirmed project `gvlpnygtuuouejndhzzh` with explicit approval of anonymous editing, deletion and shared reset. For a different empty project, apply that SQL **once** using migration tooling. It creates the three tables, seeds their settings once, and adds them to the `supabase_realtime` publication. It deliberately fails if the app tables already exist. Ordinary page loads never seed or upload local browser data. Fixed flight/hotel pins remain in `src/assets/js/data/trip.js`.
+Both numbered migrations have been applied to the confirmed project `gvlpnygtuuouejndhzzh` with explicit approval of anonymous editing, deletion and shared reset. For a different empty project, apply `001_thailand_shared.sql` then `002_explicit_clear_filters.sql` **once** using migration tooling. The first creates the three tables, seeds settings and adds the tables to `supabase_realtime`; it deliberately fails if the tables already exist. The second adds explicit primary-key predicates to intentional clear/reset deletes so PostgREST's `safeupdate` guard accepts them. Permissions and RLS remain unchanged. Ordinary page loads never seed or upload local browser data. Fixed itinerary pins remain in `src/assets/js/data/trip.js`.
 
 Supabase JS **2.117.2** is loaded as a version-pinned ES module from jsDelivr (`https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/+esm`). Internet access to that CDN and the configured Supabase project is required. There is no runtime npm installation.
 
@@ -56,11 +57,11 @@ Changes use individual record/field writes and Postgres Changes subscriptions. F
 
 ## Everyday use
 
-Drag an activity from section 03 directly into a calendar slot, or tap its **+** and choose **Place here** in a day/time slot on the same page. Calendar and Activities links jump between these sections. The old `activities.html` URL redirects to the list. Use **+ add** for custom activities, such as `Dinner | 500`. Each added occurrence has Edit, Move and remove controls; flight and hotel pins remain fixed. Print includes the calendar and fixed pins, with the catalogue and editing controls hidden.
+Drag an activity from section 02 (the list) directly into a calendar slot, or tap its **+** and choose **Place here** in a day/time slot on the same page. Calendar and Activities links jump between these sections. The old `activities.html` URL redirects to the list. Use **+ add** for custom activities, such as `Dinner | 500`. Each added occurrence has Edit, Move and remove controls; flight and hotel pins remain fixed. Print includes the calendar and fixed pins, with the catalogue and editing controls hidden.
 
-Hotel/cash calculator inputs, points balances, booking flags, expenses and checklist ticks are shared. Totals and settlements are calculated from those inputs. Search filters, navigation and unsubmitted expense forms are temporary browser state.
+Expenses and checklist ticks are shared. Hotel research, stars and guest-review snapshots live in `src/assets/js/data/hotels.js`, with sources linked beside each choice. The hotel guide replaces the old credit/points calculator; legacy database keys remain for compatibility. Its two/three-room, five/six-adult budget scenario is temporary browser state and works even if the shared database is unavailable. All displayed hotel budget figures are illustrative US dollars per room per night, not verified availability or rates for November. Search filters, navigation and unsubmitted expense forms are also temporary.
 
-Copy plan, Print and Copy settlement remain available. Page 02 provides optional JSON export/import for **calendar activities and expenses only**, not a full backup of settings. Export refreshes current data before copying. The new v2 format preserves record IDs; old v1 plan/custom/ledger codes are validated and converted to stable occurrence IDs. Imports are atomic and repeatable without adding duplicate IDs. They add missing records; they do not propagate deletions or override existing records. Normal collaboration uses automatic synchronization.
+Copy plan, Print and Copy settlement remain available. Page 16 (Share calendar and ledger) provides optional JSON export/import for **calendar activities and expenses only**, not a full backup of settings. Export refreshes current data before copying. The new v2 format preserves record IDs; old v1 plan/custom/ledger codes are validated and converted to stable occurrence IDs. Imports are atomic and repeatable without adding duplicate IDs. They add missing records; they do not propagate deletions or override existing records. Normal collaboration uses automatic synchronization.
 
 Clear shared calendar removes only added activities. Reset shared trip data clears added activities and expenses and restores all 48 settings in one transaction. Both leave fixed trip content unchanged.
 

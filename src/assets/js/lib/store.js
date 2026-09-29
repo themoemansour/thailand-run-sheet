@@ -37,6 +37,7 @@ export function createStore({ clientLoader = getSupabase, events = globalThis } 
   let readAgain = false;
   const failedWrites = new Map();
   let liveConnected = false;
+  let liveConnecting = true;
   let channel;
   let activeChannel = false;
   const dataListeners = new Set();
@@ -105,6 +106,8 @@ export function createStore({ clientLoader = getSupabase, events = globalThis } 
       publishStatus('offline', 'Offline. Editing is paused.');
     } else if (failedWrites.size) {
       publishStatus('error', [...failedWrites.values()].at(-1));
+    } else if (!liveConnected && liveConnecting) {
+      publishStatus('loading', 'Connecting live updates…');
     } else if (!liveConnected) {
       publishStatus('offline', 'Live updates disconnected. Retry connection.');
     } else {
@@ -142,6 +145,7 @@ export function createStore({ clientLoader = getSupabase, events = globalThis } 
 
   api.start = function start() {
     if (startPromise) return startPromise;
+    liveConnecting = true;
     publishStatus('loading', 'Loading…');
     startPromise = (async () => {
       client = await clientLoader();
@@ -154,10 +158,12 @@ export function createStore({ clientLoader = getSupabase, events = globalThis } 
       channel.subscribe(status => {
         if (!activeChannel || channel !== openedChannel) return;
         if (status === 'SUBSCRIBED') {
+          liveConnecting = false;
           liveConnected = true;
           if (api.ready) backgroundRefresh();
         }
         else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT' || status === 'CLOSED') {
+          liveConnecting = false;
           liveConnected = false;
           if (api.pending === 0) settleStatus();
         }
@@ -170,6 +176,7 @@ export function createStore({ clientLoader = getSupabase, events = globalThis } 
     })().catch(async error => {
       activeChannel = false;
       liveConnected = false;
+      liveConnecting = false;
       if (channel) {
         try { await client?.removeChannel?.(channel); } catch { /* Keep the original load error. */ }
       }

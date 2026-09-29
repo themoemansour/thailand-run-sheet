@@ -3,9 +3,16 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#E9EDEE">
+  <meta name="theme-color" content="#EEF0EA" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#121418" media="(prefers-color-scheme: dark)">
   <title>{{title}}</title>
+  <script>try { const theme = localStorage.getItem('theme'); if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme; } catch { /* Follow the device setting. */ }</script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231D1B2F'/%3E%3Crect x='5' y='20' width='7' height='5' fill='%23E0921A'/%3E%3Crect x='13' y='20' width='6' height='5' fill='%2317A396'/%3E%3Crect x='20' y='20' width='7' height='5' fill='%236B7BE0'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;600&family=Big+Shoulders+Display:wght@600;800&family=IBM+Plex+Mono:wght@400;600&family=Instrument+Sans:wght@400;500;600;700&display=swap">
   <link rel="stylesheet" href="/assets/styles/main.css">
+  {{styles}}
   <script type="module" src="/assets/js/app.js"></script>
 </head>
 <body data-page="{{page}}">
@@ -17,19 +24,23 @@
     <header class="mast">
       <div class="mast-main">
         <div>
-          <p class="trip-dates cond">13–27 Nov 2026 <span aria-hidden="true">/</span> Pattaya · Phuket · Bangkok</p>
+          <p class="trip-dates">13–27 Nov 2026 <span aria-hidden="true">/</span> Pattaya · Phuket · Bangkok</p>
           <h1><a href="/" aria-label="Thailand Run Sheet, home">Thailand <span>Run Sheet</span></a></h1>
+          <p class="trip-crew">Moe, Sepehr, Zach, Erfan &amp; Khader</p>
         </div>
         <div class="countdown" aria-label="Countdown to departure"><span class="n" id="cdN">—</span><span class="l">days until<br>wheels up</span></div>
       </div>
-      <p class="trip-crew">Moe, Sepehr, Zach, Erfan &amp; Khader</p>
+      <nav class="route" id="route" aria-label="Trip days"></nav>
     </header>
-    <nav id="pageNav" class="page-nav" aria-label="Run sheet sections"></nav>
-    <div class="sync-row" role="status" aria-live="polite"><span id="syncStatus">Loading…</span><button class="btn ghost" type="button" id="retryConnection" hidden>Retry connection</button></div>
+    <div class="navbar">
+      <nav id="pageNav" class="page-nav" aria-label="Run sheet sections"></nav>
+      <div class="sync-row" role="status" aria-live="polite"><span id="syncStatus">Loading…</span><button class="btn ghost" type="button" id="retryConnection" hidden>Retry connection</button></div>
+      <button class="theme-toggle" type="button" id="themeToggle" aria-pressed="false" aria-label="Switch to dark theme"><span aria-hidden="true"></span></button>
+    </div>
     <main id="mainContent">{{content}}</main>
     <footer>
-      <span>Prices are 2026 published rates and sampled lows, not live quotes. Recheck local rules before you fly.</span>
-      <button class="btn ghost" type="button" id="reset" data-shared>Reset shared trip data</button>
+      <span>Prices and budget examples are planning references, not live quotes. Check current rates and local rules before you fly.</span>
+      <button class="btn ghost danger" type="button" id="reset" data-shared>Reset shared trip data</button>
     </footer>
   </div>
 </body>

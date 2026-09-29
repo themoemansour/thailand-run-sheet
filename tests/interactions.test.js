@@ -1,28 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { DEFAULT_SETTINGS, CREW } from '../src/assets/js/data/trip.js';
-import { hotelTotals, cashTotals, balances, settleUp } from '../src/assets/js/lib/calculations.js';
+import { CREW } from '../src/assets/js/data/trip.js';
+import { balances, settleUp } from '../src/assets/js/lib/calculations.js';
 import { parseSharing, formatSharing, legacyUuid } from '../src/assets/js/lib/sharing-format.js';
 
-test('hotel calculator preserves credits, cash and points arithmetic', () => {
-  const cash = hotelTotals(DEFAULT_SETTINGS);
-  assert.equal(cash.statement, 1050);
-  assert.equal(cash.property, 200);
-  assert.equal(cash.cash, 786);
-  assert.equal(cash.uCash, 1965);
-  assert.equal(cash.net, 2251);
-  assert.equal(cash.per, 450.2);
-  const points = hotelTotals({ ...DEFAULT_SETTINGS, mode:'points' });
-  assert.equal(points.uNeed, 342000);
-  assert.equal(points.uCash, 0);
-  assert.equal(points.net, 286);
-  const low = hotelTotals({ ...DEFAULT_SETTINGS, 'b1.cost': 100 });
-  assert.equal(low.bookings[0].waste, 400);
-  assert.equal(low.bookings[0].net, 0);
-});
-
-test('cash planning and expense settlement follow original rounding and split', () => {
-  assert.deepEqual(cashTotals(DEFAULT_SETTINGS), { total:40000, usd:40000 / 35, pulls:2, fees:440 });
+test('expense settlement follows the recorded split', () => {
   const expenses = [
     { amount_thb:1050, payer:CREW[0], split:[CREW[0],CREW[1],CREW[2]] },
     { amount_thb:350, payer:CREW[1], split:[CREW[0],CREW[1]] },

@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createStore } from '../src/assets/js/lib/store.js';
 
-function fakeClient() {
+function fakeClient({ subscribed = true } = {}) {
   const db = {
     thailand_placements: [],
     thailand_expenses: [],
@@ -19,7 +19,7 @@ function fakeClient() {
     removedChannels: 0,
     removeChannel() { this.removedChannels++; return Promise.resolve(); },
     signalChannel(status) { channelStatus?.(status); },
-    channel() { return { on() { return this; }, subscribe(callback) { channelStatus = callback; callback('SUBSCRIBED'); return this; } }; },
+    channel() { return { on() { return this; }, subscribe(callback) { channelStatus = callback; if (subscribed) callback('SUBSCRIBED'); return this; } }; },
     from(name) {
       return {
         select() {
@@ -52,6 +52,20 @@ function fakeClient() {
   };
   return client;
 }
+
+test('successful initial reads wait for Realtime without reporting a false disconnection', async () => {
+  const client = fakeClient({ subscribed:false });
+  const store = createStore({ clientLoader:async () => client, events:{} });
+  const phases = [];
+  store.subscribeStatus(status => phases.push(status.phase));
+  await store.start();
+  assert.equal(store.ready, true);
+  assert.equal(store.status.phase, 'loading');
+  assert.equal(phases.includes('offline'), false);
+  client.signalChannel('SUBSCRIBED');
+  await store.refresh();
+  assert.equal(store.status.phase, 'saved');
+});
 
 test('data subscribers receive authoritative state, not Saving notifications', async () => {
   const client = fakeClient();

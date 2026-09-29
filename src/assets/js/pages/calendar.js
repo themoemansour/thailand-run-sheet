@@ -1,4 +1,4 @@
-import { DAYS, SLOTS, ACTS } from '../data/trip.js';
+import { DAYS, SLOTS, ACTS, todayDayId } from '../data/trip.js';
 import { $, esc, baht, copyText } from '../lib/ui.js';
 
 let activeEditor = null;
@@ -36,6 +36,8 @@ export function initCalendar(store) {
   let pending = null;
   let placementId = null;
   let placing = false;
+  let jumped = false;
+  const todayId = todayDayId();
   const initial = new URL(location.href).searchParams.get('activity');
   if (catalogue.has(initial)) pending = initial;
 
@@ -69,18 +71,28 @@ export function initCalendar(store) {
             <button class="addbtn" type="button" data-shared data-move="${p.id}" aria-label="Move ${esc(p.title)}">Move</button>
             <button class="x" type="button" data-shared data-rm="${p.id}" aria-label="Remove ${esc(p.title)}">&times;</button></div>`;
         }).join('')}</div></div>`).join('');
-      return `<section class="dayc c-${day.city}"><header><div><div class="dt">${day.dt}</div><div class="dl">${day.label}</div></div>
-        <div style="text-align:right"><span class="citychip">${day.city}</span><div class="who">${day.who}</div></div></header>
+      const [weekday, month, date] = day.dt.split(' ');
+      const today = day.id === todayId;
+      return `<section class="dayc c-${day.city}${today ? ' is-today' : ''}" id="day-${day.id}" aria-label="${day.dt}"><header><div class="dnum" aria-hidden="true">${date}</div><div class="dhead"><div class="dt">${weekday} <span>${month} ${date}</span></div><div class="dl">${day.label}</div></div>
+        <div class="dside">${today ? '<span class="todaychip">Today</span>' : `<span class="citychip">${day.city}</span>`}<div class="who">${day.who}</div></div></header>
         ${day.anchors.length ? `<div class="anchors">${day.anchors.map(a => `<div class="anchor"><span class="pin">&#9679;</span><span>${a}</span></div>`).join('')}</div>` : ''}
         ${warning ? '<div class="warnrow">&#9888; Dive placed the day before you fly — 18–24h rule</div>' : ''}
-        <div class="slots">${slots}</div><div class="dayfoot"><span>${entries.length} planned</span><span class="tot">${high ? baht(low) + '–' + Math.round(high).toLocaleString() : '—'}</span></div></section>`;
+        <div class="slots">${slots}</div>${entries.length ? `<div class="dayfoot"><span>${entries.length} planned</span><span class="tot">${high ? baht(low) + '–' + Math.round(high).toLocaleString() : 'free'}</span></div>` : '<div class="dayfoot empty"><span>Open day</span><a href="#activities">Browse activities &rarr;</a></div>'}</section>`;
     }).join('');
+    if (!jumped) {
+      // Day cards exist only after the first render: land deep links here, and open on today during the trip.
+      jumped = true;
+      const target = location.hash.startsWith('#day-') ? location.hash.slice(1) : !location.hash && !pending && todayId ? `day-${todayId}` : null;
+      if (target) document.getElementById(target)?.scrollIntoView({block:'start'});
+    }
     $('planCount').textContent = placements.length;
     $('planCost').textContent = totalHigh ? `${baht(totalLow)}–${Math.round(totalHigh).toLocaleString()}` : '฿0';
     gate();
   }
   function gate() {
-    $('cal').querySelectorAll('[data-shared]').forEach(button => { button.disabled = !store.ready || !navigator.onLine; });
+    $('cal').querySelectorAll('[data-shared]').forEach(button => {
+      if (!button.dataset.busy) button.disabled = !store.ready || !navigator.onLine;
+    });
     $('cal').querySelectorAll('[data-add]').forEach(button => {
       button.disabled = placing;
       button.textContent = pending ? 'Place here' : '+ add';
@@ -102,8 +114,19 @@ export function initCalendar(store) {
     if (scroll) {
       history.replaceState(null, '', '#calendar');
       window.dispatchEvent(new Event('hashchange'));
-      $('cal').scrollIntoView({behavior:'smooth',block:'start'});
-      $('cal').querySelector('[data-add]')?.focus({preventScroll:true});
+      const cal = $('cal');
+      cal.scrollIntoView({behavior:'smooth',block:'start'});
+      let day = null;
+      if (cal.scrollWidth > cal.clientWidth + 1) {
+        const viewport = cal.getBoundingClientRect();
+        let mostVisible = 0;
+        for (const card of cal.querySelectorAll('.dayc')) {
+          const bounds = card.getBoundingClientRect();
+          const visible = Math.max(0, Math.min(bounds.right, viewport.right) - Math.max(bounds.left, viewport.left));
+          if (visible > mostVisible) { day = card; mostVisible = visible; }
+        }
+      }
+      (day || cal).querySelector('[data-add]')?.focus({preventScroll:true});
     }
     return true;
   }
@@ -176,13 +199,12 @@ export function initCalendar(store) {
     const row = store.state.placements.find(p => p.id === id);
     if (!row) return;
     const dialog = document.createElement('dialog');
-    dialog.className = 'pane';
-    dialog.style.cssText = 'width:min(460px,calc(100% - 2rem));max-height:90vh;overflow:auto;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:6px';
+    dialog.className = 'pane entry-dialog';
     dialog.innerHTML = `<form><h3>${moving ? 'Move' : 'Edit'} activity</h3>
-      <label class="field">Name <input name="title" type="text" value="${esc(row.title)}" required maxlength="200" style="width:65%"></label>
+      <label class="field">Name <input name="title" type="text" value="${esc(row.title)}" required maxlength="200"></label>
       <label class="field">Low cost, ฿ <input name="cost_low" type="number" value="${row.cost_low}" min="0" max="100000000" step="any" required></label>
       <label class="field">High cost, ฿ <input name="cost_high" type="number" value="${row.cost_high}" min="0" max="100000000" step="any" required></label>
-      <label class="field">Day <select name="day_id" style="max-width:70%">${DAYS.map(d => `<option value="${d.id}" ${row.day_id === d.id ? 'selected' : ''}>${d.dt} · ${d.city}</option>`).join('')}</select></label>
+      <label class="field">Day <select name="day_id">${DAYS.map(d => `<option value="${d.id}" ${row.day_id === d.id ? 'selected' : ''}>${d.dt} · ${d.city}</option>`).join('')}</select></label>
       <label class="field">Time <select name="slot">${SLOTS.map(([key,label]) => `<option value="${key}" ${row.slot === key ? 'selected' : ''}>${label}</option>`).join('')}</select></label>
       <p class="note" role="status"></p><div class="btnrow"><button class="btn" type="submit">Save</button><button class="btn ghost" type="button" data-cancel>Cancel</button></div></form>`;
     document.body.append(dialog);
@@ -211,9 +233,11 @@ export function initCalendar(store) {
     const button = event.target.closest('button');
     if (button?.disabled) return;
     if (button?.dataset.rm) {
+      button.dataset.busy = 'true';
       button.disabled = true;
       try { await store.removePlacement(button.dataset.rm); }
-      catch { button.disabled = false; button.title = 'Not removed. Click to retry.'; }
+      catch { button.title = 'Not removed. Click to retry.'; }
+      finally { delete button.dataset.busy; gate(); }
       return;
     }
     if (button?.dataset.edit || button?.dataset.move) { editEntry(button.dataset.edit || button.dataset.move, !!button.dataset.move); return; }
