@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>07 · Hotels and the credit burn · Thailand Run Sheet</title>
+<link rel="stylesheet" href="styles.css">
+<script type="module" src="js/app.js"></script>
+</head>
+<body data-page="hotels">
+<div class="wrap">
+<header class="mast">
+  <div class="eyebrow cond">Fri Nov 13 &ndash; Fri Nov 27, 2026 &middot; Pattaya 3 &middot; Phuket 5 &middot; Bangkok 6</div>
+  <h1>Thailand<br>Run Sheet</h1>
+  <div class="crew"><span>Moe</span><span>Sepehr</span><span>Zach</span><span>Erfan</span><span>Khader</span></div>
+  <p class="standfirst">Fourteen nights, three hotels, one shared calendar everyone fills in. Drag an activity from the list below into a day, or tap <strong>+</strong> then tap a slot on your phone. Add your own plan with <strong>+ add</strong>. Colours follow the city, so a Bangkok plan on a Phuket day turns red. Changes save for the group automatically.</p>
+  <div class="countdown"><span class="n" id="cdN">&mdash;</span><span class="l">days until wheels up</span></div>
+</header>
+<nav id="pageNav" class="page-nav" aria-label="Run sheet pages"></nav>
+<div class="sync-row" role="status"><span id="syncStatus">Loading…</span><button class="btn ghost" type="button" id="retryConnection">Retry connection</button></div>
+<main>
+<h2><span class="idx">07</span> Hotels and the credit burn</h2>
+<p class="lede">Three hotels now, and Phuket moved to Patong for Bangla. That costs you a credit play &mdash; Dinso Patong is a $500-stack property, but the stack is already spent in Pattaya, and $746 against a $250 credit is a bad trade. Patong goes on points instead: <strong>Hyatt Place Phuket Patong</strong> is a Hyatt, Sapphire transfers 1:1, and it's a walk from the street.</p>
+
+<div class="controls">
+  <div class="ctl"><span class="lbl">Uncredited nights paid with</span>
+    <div class="seg" role="group" aria-label="Payment mode">
+      <button type="button" id="mCash" data-shared aria-pressed="true">Cash</button>
+      <button type="button" id="mPoints" data-shared aria-pressed="false">Points</button>
+    </div></div>
+  <div class="ctl"><span class="lbl">Splitting between</span>
+    <div class="stepper">
+      <button type="button" id="pMinus" data-shared aria-label="Fewer people">&minus;</button>
+      <span class="n mono" id="pNum">5</span>
+      <button type="button" id="pPlus" data-shared aria-label="More people">+</button>
+    </div></div>
+  <div class="ctl"><span class="lbl">Sapphire annual travel credit</span>
+    <label class="check"><input type="checkbox" id="travelCredit" data-setting="travelCredit" data-shared checked> $300 available this card year</label></div>
+</div>
+
+<div class="btnrow" style="margin:.5rem 0"><button class="btn ghost" type="button" id="retrySettings" data-shared hidden>Retry unsaved settings</button></div>
+
+<div class="readout">
+  <div class="stat hero"><div class="lbl">Lodging, each</div><div class="fig" id="fPer">$0</div><div class="sub" id="fPerSub">after credits</div></div>
+  <div class="stat"><div class="lbl">Credits captured</div><div class="fig jade" id="fCredit">$0</div><div class="sub">statement + on-property</div></div>
+  <div class="stat"><div class="lbl">Total cash out</div><div class="fig saffron" id="fCash">$0</div><div class="sub">40 room-nights</div></div>
+  <div class="stat"><div class="lbl">Credit wasted</div><div class="fig" id="fWaste">$0</div><div class="sub">bookings under their cap</div></div>
+  <div class="stat"><div class="lbl">Booked</div><div class="fig" id="fDone">0/3</div><div class="sub">credit bookings placed</div></div>
+</div>
+
+<div class="scroll" style="margin-top:.95rem">
+<table>
+  <thead><tr><th style="width:36px"></th><th>Property</th><th>Dates</th><th>Channel</th><th class="num">Rooms</th><th>Credit</th><th class="num">Est. cost</th><th class="num">Cash out</th></tr></thead>
+  <tbody id="rows">
+    <tr data-id="b1" data-credit="500" data-prop="0">
+      <td><input type="checkbox" class="done" data-setting="b1.done" data-shared aria-label="Mark InterContinental Pattaya booked"></td>
+      <td><div class="prop">InterContinental Pattaya</div><div class="sub2">Pratumnak Hill &middot; 10 min Grab to Walking Street &middot; the only Thai property where both Chase credits stack</div></td>
+      <td class="mono">Nov 13&ndash;16<div class="sub2">3 nights</div></td>
+      <td>Chase Travel &rsaquo; The Edit<div class="sub2">prepaid &ldquo;Pay Now&rdquo;</div></td>
+      <td class="num mono">1</td>
+      <td><span class="tag">Edit $250 + Select $250</span><div class="bar"><span class="b-credit"></span><span class="b-cash"></span><span class="b-waste"></span></div><div class="barkey"></div></td>
+      <td class="num"><input type="number" class="cost" data-setting="b1.cost" data-shared value="765" min="0" step="1" aria-label="Estimated cost"></td>
+      <td class="num mono cash-fig oop"></td>
+    </tr>
+    <tr data-id="b2" data-credit="250" data-prop="0">
+      <td><input type="checkbox" class="done" data-setting="b2.done" data-shared aria-label="Mark The Standard booked"></td>
+      <td><div class="prop">The Standard, Bangkok Mahanakhon</div><div class="sub2">Silom &middot; cheapest Edit property in Thailand &middot; SkyBar is in the building</div></td>
+      <td class="mono">Nov 23&ndash;25<div class="sub2">2 nights &mdash; covers Loy Krathong and Moe's last night</div></td>
+      <td>Chase Travel &rsaquo; The Edit<div class="sub2">prepaid &ldquo;Pay Now&rdquo;</div></td>
+      <td class="num mono">1</td>
+      <td><span class="tag">Edit $250</span><div class="bar"><span class="b-credit"></span><span class="b-cash"></span><span class="b-waste"></span></div><div class="barkey"></div></td>
+      <td class="num"><input type="number" class="cost" data-setting="b2.cost" data-shared value="431" min="0" step="1" aria-label="Estimated cost"></td>
+      <td class="num mono cash-fig oop"></td>
+    </tr>
+    <tr data-id="b3" data-credit="300" data-prop="200">
+      <td><input type="checkbox" class="done" data-setting="b3.done" data-shared aria-label="Mark the FHR night booked"></td>
+      <td><div class="prop">Fine Hotels + Resorts &mdash; departure night</div><div class="sub2">12pm check-in holds the rooms through Erfan's 17:00 run and the 22:00 one</div></td>
+      <td class="mono">Nov 26&ndash;27<div class="sub2">1 night</div></td>
+      <td>AmexTravel &rsaquo; FHR<div class="sub2">prepaid on the Platinum</div></td>
+      <td class="num mono">2</td>
+      <td><span class="tag">Plat $300 + $200 on-property</span><div class="bar"><span class="b-credit"></span><span class="b-cash"></span><span class="b-waste"></span></div><div class="barkey"></div></td>
+      <td class="num"><input type="number" class="cost" data-setting="b3.cost" data-shared value="640" min="0" step="1" aria-label="Estimated cost"></td>
+      <td class="num mono cash-fig oop"></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="duo" style="margin-top:.95rem">
+  <div class="pane c-pattaya">
+    <h3>Pattaya &mdash; uncredited</h3>
+    <p class="hint">3 nights &times; 3 rooms = 9. One room carries the stack.</p>
+    <div class="field"><span class="k">Room-nights left</span><input type="number" id="ptNights" data-setting="ptNights" data-shared value="6" min="0" step="1"></div>
+    <div class="field"><span class="k">Cash per room-night</span><input type="number" id="ptRate" data-setting="ptRate" data-shared value="45" min="0" step="5"></div>
+    <div class="field"><span class="k">Points per room-night</span><input type="number" id="ptPts" data-setting="ptPts" data-shared value="10000" min="0" step="500"></div>
+    <div class="total"><span class="k" id="ptLabel">Cost</span><span class="v mono" id="ptTotal">$0</span></div>
+    <p class="note">Book rooms two and three direct or on Agoda &mdash; portal rates sit above market and they earn nothing. Pattaya is the cheapest lodging of the trip by a distance.</p>
+  </div>
+  <div class="pane c-phuket">
+    <h3>Phuket &mdash; Patong, uncredited</h3>
+    <p class="hint">5 nights &times; 3 rooms = 15. No credit reaches these.</p>
+    <div class="field"><span class="k">Room-nights</span><input type="number" id="phNights" data-setting="phNights" data-shared value="15" min="0" step="1"></div>
+    <div class="field"><span class="k">Cash per room-night</span><input type="number" id="phRate" data-setting="phRate" data-shared value="65" min="0" step="5"></div>
+    <div class="field"><span class="k">Points per room-night</span><input type="number" id="phPts" data-setting="phPts" data-shared value="10000" min="0" step="500"></div>
+    <div class="total"><span class="k" id="phLabel">Cost</span><span class="v mono" id="phTotal">$0</span></div>
+    <p class="note"><b>Hyatt Place Phuket Patong</b> takes Sapphire points 1:1 through World of Hyatt and sits a short walk off Bangla. Holiday Inn Express Patong is the IHG alternative. Both beat paying cash on the busiest street on the island.</p>
+  </div>
+  <div class="pane c-bangkok">
+    <h3>Bangkok &mdash; uncredited</h3>
+    <p class="hint">16 room-nights total; 4 carry a credit.</p>
+    <div class="field"><span class="k">Room-nights left</span><input type="number" id="bkNights" data-setting="bkNights" data-shared value="12" min="0" step="1"></div>
+    <div class="field"><span class="k">Cash per room-night</span><input type="number" id="bkRate" data-setting="bkRate" data-shared value="60" min="0" step="5"></div>
+    <div class="field"><span class="k">Points per room-night</span><input type="number" id="bkPts" data-setting="bkPts" data-shared value="11000" min="0" step="500"></div>
+    <div class="total"><span class="k" id="bkLabel">Cost</span><span class="v mono" id="bkTotal">$0</span></div>
+    <p class="note">Room count drops as people leave: 3 rooms Nov 21&ndash;24, 2 rooms Nov 25&ndash;26. Book Nov 21&ndash;25 as one block and the 26th separately &mdash; that last night is the Amex booking.</p>
+  </div>
+</div>
+
+<div class="duo" style="margin-top:.95rem">
+  <div class="pane">
+    <h3>Points on hand</h3>
+    <p class="hint">Transfers are one-way. Confirm the award first.</p>
+    <div class="field"><span class="k">Chase Ultimate Rewards</span><input type="number" id="balUR" data-setting="balUR" data-shared value="0" min="0" step="1000"></div>
+    <div class="field"><span class="k">Amex Membership Rewards</span><input type="number" id="balMR" data-setting="balMR" data-shared value="0" min="0" step="1000"></div>
+    <div class="total"><span class="k">UR needed</span><span class="v mono" id="ptsNeed">0</span></div>
+    <div class="verdict" id="ptsVerdict">Enter your balances.</div>
+    <p class="note">Reserve still transfers 1:1 to World of Hyatt; Preferred and Ink drop to 4:3 on Oct 1, 2026. Hyatt went to five dynamic tiers for stays from May 2026, so confirm live before you move anything. Keep MR for flights &mdash; Hilton Phuket at ~50k a night is worse value than Hyatt at ~10&ndash;15k.</p>
+  </div>
+  <div class="pane">
+    <h3>Credit deadlines and order</h3>
+    <p class="hint">Two die with the calendar year.</p>
+    <div class="field"><span class="k">Edit #1 &mdash; $250</span><span>Calendar 2026</span></div>
+    <div class="field"><span class="k">Select Hotels &mdash; $250</span><span style="color:var(--coral);font-weight:600">Dec 31, 2026</span></div>
+    <div class="field"><span class="k">Edit #2 &mdash; $250</span><span>Calendar 2026</span></div>
+    <div class="field"><span class="k">Platinum hotel &mdash; $300</span><span>Jul&ndash;Dec 2026</span></div>
+    <div class="field"><span class="k">Sapphire travel &mdash; $300</span><span style="color:var(--coral);font-weight:600">Anniversary TBC</span></div>
+    <div class="field"><span class="k">Gold, Hotel Collection</span><span>$100/stay, unassigned</span></div>
+    <p class="note"><b>Order matters.</b> Put the flights on the Sapphire <b>before any hotel</b>. The $300 travel credit auto-applies to the first eligible travel spend and Chase Travel hotel prepays count as travel &mdash; if it lands on the Pattaya charge next to $500 of Edit and Select, the credits exceed the bill and the overlap evaporates.</p>
+  </div>
+  <div class="pane">
+    <h3>Cash planner</h3>
+    <p class="hint">Daily spend excludes hotels and big-ticket tours.</p>
+    <div class="field"><span class="k">Days on the ground</span><input type="number" id="cDays" data-setting="cDays" data-shared value="14" min="1" step="1"></div>
+    <div class="field"><span class="k">Daily cash, ฿ each</span><input type="number" id="cDaily" data-setting="cDaily" data-shared value="2000" min="0" step="100"></div>
+    <div class="field"><span class="k">Tours &amp; activities, ฿</span><input type="number" id="cActs" data-setting="cActs" data-shared value="12000" min="0" step="500"></div>
+    <div class="field"><span class="k">ATM fee per pull, ฿</span><input type="number" id="cFee" data-setting="cFee" data-shared value="220" min="0" step="10"></div>
+    <div class="total"><span class="k">Cash to plan for, each</span><span class="v mono" id="cTotal">฿0</span></div>
+    <div class="field"><span class="k">In dollars</span><span class="mono" id="cUSD">$0</span></div>
+    <div class="field"><span class="k">ATM pulls at ฿20,000 max</span><span class="mono" id="cPulls">0</span></div>
+    <div class="field"><span class="k">Burned on ATM fees</span><span class="mono" id="cFees" style="color:var(--coral)">฿0</span></div>
+    <p class="note">The fee is <b>per withdrawal, not per baht</b> &mdash; take the maximum every time. Always choose to be billed in <b>Thai baht</b>, never dollars; that prompt is dynamic currency conversion and the markup eats any card benefit. Better still: bring clean USD and change it at <b>SuperRich</b> or <b>Vasu</b> in Bangkok, whose margins beat both airport counters and ATMs.</p>
+  </div>
+</div>
+</main>
+<footer>
+  <span>Prices are 2026 published rates and sampled lows, not live quotes. ~35฿ to the dollar. Laws verified Sep 2026 &mdash; recheck the vape and cannabis positions before you fly.</span>
+  <button class="btn ghost" type="button" id="reset" data-shared>Reset shared trip data</button>
+</footer>
+</div>
+</body>
+</html>
