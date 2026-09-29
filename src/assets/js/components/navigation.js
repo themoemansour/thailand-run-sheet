@@ -1,20 +1,22 @@
+import { DAYS, todayDayId } from '../data/trip.js';
+
 const pages = [
   ['01', 'Calendar', '/#calendar', 'index'],
-  ['02', 'Share calendar and ledger', '/sharing/', 'sharing'],
-  ['03', 'Activities', '/#activities', 'activities'],
-  ['04', 'Read this part twice', '/important/', 'important'],
-  ['05', 'Before you fly', '/before-you-fly/', 'before-you-fly'],
-  ['06', 'Moving between places', '/transport/', 'transport'],
-  ['07', 'Hotels and the credit burn', '/hotels/', 'hotels'],
-  ['08', 'Settle up', '/expenses/', 'expenses'],
-  ['09', 'Eating and the pork problem', '/food/', 'food'],
-  ['10', 'Health and pharmacies', '/health/', 'health'],
-  ['11', 'Money on the ground', '/money/', 'money'],
-  ['12', 'Scams', '/scams/', 'scams'],
-  ['13', 'Still to resolve', '/unresolved/', 'unresolved'],
-  ['14', 'Checklist', '/checklist/', 'checklist'],
-  ['15', 'If something goes wrong', '/emergency/', 'emergency'],
-  ['16', 'Links', '/links/', 'links'],
+  ['02', 'Activities', '/#activities', 'activities'],
+  ['03', 'Read this part twice', '/important/', 'important'],
+  ['04', 'Before you fly', '/before-you-fly/', 'before-you-fly'],
+  ['05', 'Moving between places', '/transport/', 'transport'],
+  ['06', 'Hotel guide', '/hotels/', 'hotels'],
+  ['07', 'Settle up', '/expenses/', 'expenses'],
+  ['08', 'Eating and the pork problem', '/food/', 'food'],
+  ['09', 'Health and pharmacies', '/health/', 'health'],
+  ['10', 'Money on the ground', '/money/', 'money'],
+  ['11', 'Scams', '/scams/', 'scams'],
+  ['12', 'Still to resolve', '/unresolved/', 'unresolved'],
+  ['13', 'Checklist', '/checklist/', 'checklist'],
+  ['14', 'If something goes wrong', '/emergency/', 'emergency'],
+  ['15', 'Links', '/links/', 'links'],
+  ['16', 'Share calendar and ledger', '/sharing/', 'sharing'],
 ];
 
 export function initNav() {
@@ -22,7 +24,7 @@ export function initNav() {
   if (!nav) return;
   const quick = document.createElement('div');
   quick.className = 'nav-quick';
-  quick.append(...[pages[0], pages[2]].map(makeLink));
+  quick.append(...[pages[0], pages[1]].map(makeLink));
   const toggle = document.createElement('button');
   toggle.className = 'nav-toggle';
   toggle.type = 'button';
@@ -67,6 +69,42 @@ export function initNav() {
   }
   updateCurrent();
   window.addEventListener('hashchange', updateCurrent);
+}
+
+// The masthead strip: one segment per trip day, grouped into city legs, each linking to its calendar card.
+export function initRoute() {
+  const route = document.getElementById('route');
+  if (!route) return;
+  const todayId = todayDayId();
+  const legs = [];
+  for (const day of DAYS) {
+    const last = legs.at(-1);
+    if (last && last.city === day.city && day.city !== 'travel') last.days.push(day);
+    else legs.push({ city: day.city, days: [day] });
+  }
+  route.innerHTML = legs.map(leg => `<div class="leg c-${leg.city}" style="flex-grow:${leg.days.length}">
+    <span class="leg-name">${leg.city === 'travel' ? '<span aria-hidden="true">&#9992;</span><span class="sr">Travel</span>' : leg.city}</span>
+    <span class="leg-days">${leg.days.map(day => `<a href="/#day-${day.id}"${day.id === todayId ? ' class="is-today" aria-current="date"' : ''} title="${day.dt} · ${day.label}"><span class="sr">${day.dt}</span><span aria-hidden="true">${day.dt.split(' ').at(-1)}</span></a>`).join('')}</span>
+  </div>`).join('');
+}
+
+// Light/dark switch. With no saved choice the page follows the device setting.
+export function initTheme() {
+  const button = document.getElementById('themeToggle');
+  if (!button) return;
+  const root = document.documentElement;
+  const isDark = () => root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  const sync = () => {
+    button.setAttribute('aria-pressed', String(isDark()));
+    button.setAttribute('aria-label', isDark() ? 'Switch to light theme' : 'Switch to dark theme');
+  };
+  button.addEventListener('click', () => {
+    root.dataset.theme = isDark() ? 'light' : 'dark';
+    try { localStorage.setItem('theme', root.dataset.theme); } catch { /* Theme still applies for this visit. */ }
+    sync();
+  });
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', sync);
+  sync();
 }
 
 function makeLink([number, label, href, page]) {

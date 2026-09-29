@@ -4,7 +4,7 @@ export const DEPART = new Date(2026, 10, 13);
 export const SLOTS = [["morning","Morning"],["afternoon","Afternoon"],["evening","Evening"],["night","Night"]];
 export const DAYS = [
     { id:"d13", dt:"Fri Nov 13", city:"pattaya", label:"Land 23:30 · straight to Pattaya",
-      who:"All 5", anchors:["Land Suvarnabhumi 23:30","Pre-booked van → Pattaya, ~90 min","Check in InterContinental Pattaya"] },
+      who:"All 5", anchors:["Land Suvarnabhumi 23:30","Pre-booked van → Pattaya, ~90 min","Pattaya arrival after midnight — reserve Nov 13 and notify the hotel"] },
     { id:"d14", dt:"Sat Nov 14", city:"pattaya", label:"First full day", who:"All 5", anchors:[] },
     { id:"d15", dt:"Sun Nov 15", city:"pattaya", label:"Last Pattaya day", who:"All 5", anchors:[] },
     { id:"d16", dt:"Mon Nov 16", city:"travel", label:"Pattaya → Phuket", who:"All 5",
@@ -17,12 +17,12 @@ export const DAYS = [
       anchors:["Early flight HKT→BKK, 1h20","Check in Sukhumvit","Order custom Muay Thai shorts today"] },
     { id:"d22", dt:"Sun Nov 22", city:"bangkok", label:"Bangkok · Chatuchak runs today", who:"All 5", anchors:[] },
     { id:"d23", dt:"Mon Nov 23", city:"bangkok", label:"Bangkok", who:"All 5",
-      anchors:["Check in The Standard Mahanakhon"] },
+      anchors:["Bangkok hotel base — see the hotel guide; no mid-stay move needed"] },
     { id:"d24", dt:"Tue Nov 24", city:"bangkok", label:"Loy Krathong · Moe's last night", who:"All 5",
-      anchors:["Loy Krathong — float by 21:00","Moe leaves hotel ~00:00 for 03:00 flight"] },
+      anchors:["Loy Krathong — float by 21:00 (date unconfirmed: 24th or 25th)","Moe leaves hotel ~00:00 for 03:00 flight"] },
     { id:"d25", dt:"Wed Nov 25", city:"bangkok", label:"Bangkok", who:"4 left", anchors:[] },
     { id:"d26", dt:"Thu Nov 26", city:"bangkok", label:"Last day · everyone out", who:"3–4 left",
-      anchors:["FHR night — 12pm check-in, room held all day","Collect the custom shorts","Erfan leaves ~17:00 · Zach & Sepehr ~22:00"] }
+      anchors:["Keep Nov 26 hotel night for late departures, or confirm day-use in advance","Collect the custom shorts","Erfan leaves ~17:00 · Zach & Sepehr ~22:00"] }
   ];;
 export const ACTS = [
     /* ---------------- PATTAYA ---------------- */
@@ -33,7 +33,7 @@ export const ACTS = [
     {id:"p3",city:"pattaya",cat:"culture",nm:"Sanctuary of Truth",dur:"1.5–2 h",slot:"afternoon",cost:[500,500],must:true,
       tip:"Vast all-teak carved temple joined without a single nail, unfinished since 1981. Unlike anything else in the country. 08:00–18:00, hard hat required and provided.",link:"https://www.sanctuaryoftruth.com/"},
     {id:"p4",city:"pattaya",cat:"culture",nm:"Big Buddha Hill (Wat Phra Yai)",dur:"45 min",slot:"afternoon",cost:[0,0],
-      tip:"18m gold Buddha on Pratumnak with the best free view of the bay. Ten minutes from your hotel."},
+      tip:"18m gold Buddha on Pratumnak with a free view of the bay. Plan a ride from the central Pattaya hotel options."},
     {id:"p5",city:"pattaya",cat:"nightlife",nm:"Tiffany's Show",dur:"1 h",slot:"evening",cost:[800,1200],
       tip:"The original Pattaya cabaret, running since 1974. Three shows nightly. Book ahead on a Saturday.",link:"https://www.tiffany-show.co.th/"},
     {id:"p6",city:"pattaya",cat:"nightlife",nm:"Alcazar Cabaret",dur:"1 h",slot:"evening",cost:[700,1000],
@@ -59,7 +59,7 @@ export const ACTS = [
     {id:"p16",city:"pattaya",cat:"active",nm:"Watersports off Pattaya Beach",dur:"1–2 h",slot:"afternoon",cost:[800,2000],
       tip:"Parasailing, banana boat, jet ski. <b>Film the jet ski before you touch it</b> — the damage shakedown is endemic here. Agree the price in writing first."},
     {id:"p17",city:"pattaya",cat:"culture",nm:"Pattaya Viewpoint (Pratumnak)",dur:"30 min",slot:"evening",cost:[0,0],
-      tip:"Free, five minutes from the hotel, and the whole crescent of the bay at sunset. Good pre-dinner stop."},
+      tip:"Free, with the whole crescent of the bay at sunset. Plan a ride from central Pattaya; a good pre-dinner stop."},
     {id:"p18",city:"pattaya",cat:"shop",nm:"Tuk Com electronics mall",dur:"1–2 h",slot:"afternoon",cost:[0,3000],
       tip:"Phones, drones, cameras, repairs, accessories at a fraction of US prices. Haggle. Check warranties are international."},
     {id:"p19",city:"pattaya",cat:"water",nm:"Koh Sak & Koh Krok hop",dur:"Half day",slot:"morning",cost:[600,1200],
@@ -85,7 +85,7 @@ export const ACTS = [
     {id:"h8",city:"phuket",cat:"beach",nm:"Freedom Beach",dur:"Half day",slot:"afternoon",cost:[300,400],
       tip:"No road access, which is the point. Longtail from Patong ~฿1,500 for the boat — split five ways it's nothing. <b>Agree a pickup time and pay on return, never up front.</b>"},
     {id:"h9",city:"phuket",cat:"beach",nm:"Patong Beach",dur:"Half day",slot:"afternoon",cost:[0,300],
-      tip:"On your doorstep. Not Phuket's best sand but it's fifty metres from the hotel and there's a beer in your hand within a minute. Loungers ~฿200."},
+      tip:"An easy walk from the central Patong hotel shortlist. The exact beach distance depends on your choice. Loungers ~฿200."},
     {id:"h10",city:"phuket",cat:"beach",nm:"Kata & Karon beaches",dur:"Half day",slot:"afternoon",cost:[0,300],
       tip:"Fifteen minutes south and a different world from Patong — proper sand, real November waves, room to breathe. Worth one afternoon."},
     {id:"h11",city:"phuket",cat:"beach",nm:"Nai Harn & Ya Nui",dur:"Half day",slot:"afternoon",cost:[0,200],
@@ -143,7 +143,7 @@ export const ACTS = [
     {id:"b6",city:"bangkok",cat:"shop",nm:"Custom Muay Thai shorts",dur:"Order + 3–5 days",slot:"afternoon",cost:[1100,2000],must:true,
       tip:"<b>Boon Sport</b> has run a family workshop in Bangkok since 2002 — custom nylon ~$55, standard $32, +$12 a leg for names. Fairtex from ~$45. <b>Production is 3–5 working days: order Sat the 21st, collect Thu the 26th.</b> Or order online before you fly.",link:"https://custom.boonsport.com/"},
     {id:"b7",city:"bangkok",cat:"nightlife",nm:"Rooftop bars",dur:"2 h",slot:"evening",cost:[500,1200],
-      tip:"Lebua Sky Bar, Vertigo at Banyan Tree, Octave in Thonglor, Mahanakhon SkyBar. Drinks ฿400–800. <b>Dress code is enforced</b> — no shorts, no sandals, no sleeveless. Mahanakhon is inside The Standard, so one night it's an elevator ride."},
+      tip:"Lebua Sky Bar, Vertigo at Banyan Tree, Octave in Thonglor, Mahanakhon SkyBar. Drinks ฿400–800. <b>Dress code is enforced</b> — no shorts, no sandals, no sleeveless. Plan transport from your chosen hotel."},
     {id:"b8",city:"bangkok",cat:"nightlife",nm:"Sukhumvit Soi 11",dur:"Evening",slot:"night",cost:[600,1500],must:true,
       tip:"Above Eleven, Levels, and Havana Social — a speakeasy behind a phone booth where you need the rotary-dial code to get in. Walkable from Nana BTS."},
     {id:"b9",city:"bangkok",cat:"nightlife",nm:"Thonglor & Ekkamai",dur:"Evening",slot:"night",cost:[600,1500],
@@ -248,3 +248,9 @@ export const DEFAULT_SETTINGS = {
   "check.23": false,
   "check.24": false
 };
+
+// The calendar day matching the local date during the trip, otherwise null.
+export function todayDayId(now = new Date()) {
+  const id = `d${now.getDate()}`;
+  return now.getFullYear() === 2026 && now.getMonth() === 10 && DAYS.some(day => day.id === id) ? id : null;
+}

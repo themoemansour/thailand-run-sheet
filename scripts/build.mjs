@@ -10,7 +10,7 @@ if (resolve(output) !== resolve(root, 'dist') || relative(root, output) !== 'dis
 }
 const template = await readFile(join(root, 'src/layouts/base.html'), 'utf8');
 
-for (const token of ['title', 'page', 'content']) {
+for (const token of ['title', 'page', 'content', 'styles']) {
   const marker = `{{${token}}}`;
   if (template.split(marker).length !== 2) throw new Error(`Layout must contain ${marker} exactly once`);
 }
@@ -19,6 +19,7 @@ function render(page, content) {
   return template
     .replace('{{title}}', page.title)
     .replace('{{page}}', page.slug)
+    .replace('{{styles}}', page.stylesheet ? `<link rel="stylesheet" href="${page.stylesheet}">` : '')
     .replace('{{content}}', content);
 }
 

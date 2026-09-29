@@ -1,15 +1,19 @@
 import { DEPART } from './data/trip.js';
-import { initNav } from './components/navigation.js';
+import { initNav, initRoute, initTheme } from './components/navigation.js';
 import { initCalendar, flushCalendar, hasCalendarDraft } from './pages/calendar.js';
 import { initActivities } from './pages/activities.js';
 import { initSettings, flushSettings, hasUnsavedSettings } from './pages/settings.js';
 import { initExpenses, hasUnsavedExpense } from './pages/expenses.js';
 import { initSharing } from './pages/sharing.js';
+import { initHotelGuide } from './pages/hotels.js';
 import { $ } from './lib/ui.js';
 
 initNav();
+initRoute();
+initTheme();
 $('cdN').textContent = Math.max(0, Math.ceil((DEPART - new Date()) / 86400000));
 const page = document.body.dataset.page;
+if (page === 'hotels') initHotelGuide();
 let store;
 let resetting = false;
 let suppressUnload = false;
@@ -35,7 +39,7 @@ try {
     const calendar = initCalendar(store);
     initActivities(calendar.pickUp);
   }
-  if (page === 'hotels' || page === 'checklist') initSettings(store);
+  if (page === 'checklist') initSettings(store);
   if (page === 'expenses') initExpenses(store);
   if (page === 'sharing') initSharing(store);
   store.subscribe(gate);
@@ -45,7 +49,7 @@ try {
   });
   $('reset').addEventListener('click', async () => {
     if (resetting) return;
-    if (!window.confirm('Reset everything saved for everyone? This clears added calendar activities and expenses and restores all hotel figures, booking flags and checklist ticks. Fixed trip content stays.')) return;
+    if (!window.confirm('Reset everything saved for everyone? This clears added calendar activities and expenses and resets the checklist and saved legacy settings. Fixed trip content stays.')) return;
     if ((hasCalendarDraft() || hasUnsavedSettings() || hasUnsavedExpense()) && !window.confirm('You also have an unsaved draft on this page. Discard it and reset the shared trip?')) return;
     resetting = true;
     const controls = [...document.querySelectorAll('button,input,select,textarea')];
