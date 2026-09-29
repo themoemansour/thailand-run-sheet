@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#E9EDEE">
+  <title>{{title}}</title>
+  <link rel="stylesheet" href="/assets/styles/main.css">
+  <script type="module" src="/assets/js/app.js"></script>
+</head>
+<body data-page="{{page}}">
+  <div class="picker" id="picker" role="status" aria-live="polite">
+    <span id="pickerTxt">Pick a day and time slot</span>
+    <button type="button" id="pickerCancel">Cancel</button>
+  </div>
+  <div class="wrap">
+    <header class="mast">
+      <div class="mast-main">
+        <div>
+          <p class="trip-dates cond">13–27 Nov 2026 <span aria-hidden="true">/</span> Pattaya · Phuket · Bangkok</p>
+          <h1><a href="/" aria-label="Thailand Run Sheet, home">Thailand <span>Run Sheet</span></a></h1>
+        </div>
+        <div class="countdown" aria-label="Countdown to departure"><span class="n" id="cdN">—</span><span class="l">days until<br>wheels up</span></div>
+      </div>
+      <p class="trip-crew">Moe, Sepehr, Zach, Erfan &amp; Khader</p>
+    </header>
+    <nav id="pageNav" class="page-nav" aria-label="Run sheet sections"></nav>
+    <div class="sync-row" role="status" aria-live="polite"><span id="syncStatus">Loading…</span><button class="btn ghost" type="button" id="retryConnection" hidden>Retry connection</button></div>
+    <main id="mainContent">{{content}}</main>
+    <footer>
+      <span>Prices are 2026 published rates and sampled lows, not live quotes. Recheck local rules before you fly.</span>
+      <button class="btn ghost" type="button" id="reset" data-shared>Reset shared trip data</button>
+    </footer>
+  </div>
+</body>
+</html>

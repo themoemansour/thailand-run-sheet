@@ -1,0 +1,43 @@
+<section id="calendar">
+<h2><span class="idx">01</span> The calendar</h2>
+<p class="lede">Pinned items are fixed &mdash; flights, hotels, the things that can't move. Everything under them is yours to fill. Add your own with <strong>+ add</strong> in any slot; type <span class="mono">Name | 500</span> to attach a baht cost.</p>
+<div class="legend">
+  <b><i style="background:var(--saffron)"></i> Pattaya</b>
+  <b><i style="background:var(--jade)"></i> Phuket</b>
+  <b><i style="background:var(--indigo)"></i> Bangkok</b>
+  <b><i style="background:var(--coral)"></i> Travel day</b>
+  <b style="margin-left:auto"><span class="mono" id="planCount">0</span> items planned &middot; <span class="mono" id="planCost">฿0</span> each</b>
+</div>
+<div class="btnrow" style="margin:0 0 1rem">
+  <button class="btn" type="button" id="copyPlan">Copy plan for the group chat</button>
+  <button class="btn ghost" type="button" id="printPlan">Print</button>
+  <button class="btn ghost" type="button" id="clearPlan" data-shared>Clear shared calendar</button>
+</div>
+<div class="cal" id="cal"></div>
+</section>
+<section id="activities">
+<h2><span class="idx">03</span> The list &mdash; drag anything into the calendar</h2>
+<p class="lede">Every option with a real duration and a real price. Red badge means I'd argue for it. Search, filter, then drag an activity into a calendar slot above, or tap <strong>+</strong> and choose a slot.</p>
+<div class="filters" id="cityFilters">
+  <span class="grouplbl">Place</span>
+  <button class="chip" type="button" data-city="all" aria-pressed="true">All</button>
+  <button class="chip" type="button" data-city="pattaya" aria-pressed="false">Pattaya</button>
+  <button class="chip" type="button" data-city="phuket" aria-pressed="false">Phuket</button>
+  <button class="chip" type="button" data-city="bangkok" aria-pressed="false">Bangkok</button>
+</div>
+<div class="filters" id="catFilters">
+  <span class="grouplbl">Type</span>
+  <button class="chip" type="button" data-cat="all" aria-pressed="true">All</button>
+  <button class="chip" type="button" data-cat="must" aria-pressed="false">Must do</button>
+  <button class="chip" type="button" data-cat="nightlife" aria-pressed="false">Nightlife</button>
+  <button class="chip" type="button" data-cat="water" aria-pressed="false">Water</button>
+  <button class="chip" type="button" data-cat="beach" aria-pressed="false">Beach</button>
+  <button class="chip" type="button" data-cat="culture" aria-pressed="false">Culture</button>
+  <button class="chip" type="button" data-cat="food" aria-pressed="false">Food</button>
+  <button class="chip" type="button" data-cat="active" aria-pressed="false">Active</button>
+  <button class="chip" type="button" data-cat="shop" aria-pressed="false">Shopping</button>
+  <button class="chip" type="button" data-cat="daytrip" aria-pressed="false">Day trip</button>
+  <input class="srch" type="search" id="srch" placeholder="Search everything…" aria-label="Search activities">
+</div>
+<div class="acts" id="acts"></div>
+</section>

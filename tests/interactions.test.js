@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { DEFAULT_SETTINGS, CREW } from '../js/data.js';
-import { hotelTotals, cashTotals, balances, settleUp } from '../js/calculations.js';
-import { parseSharing, formatSharing, legacyUuid } from '../js/sharing-format.js';
+import { DEFAULT_SETTINGS, CREW } from '../src/assets/js/data/trip.js';
+import { hotelTotals, cashTotals, balances, settleUp } from '../src/assets/js/lib/calculations.js';
+import { parseSharing, formatSharing, legacyUuid } from '../src/assets/js/lib/sharing-format.js';
 
 test('hotel calculator preserves credits, cash and points arithmetic', () => {
   const cash = hotelTotals(DEFAULT_SETTINGS);
