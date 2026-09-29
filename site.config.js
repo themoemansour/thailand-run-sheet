@@ -1,0 +1,17 @@
+export const pages = [
+  { slug: 'index', title: '01 · The calendar · Thailand Run Sheet' },
+  { slug: 'sharing', title: '02 · Share calendar and ledger · Thailand Run Sheet' },
+  { slug: 'important', title: '04 · Read this part twice · Thailand Run Sheet' },
+  { slug: 'before-you-fly', title: '05 · Before you fly · Thailand Run Sheet' },
+  { slug: 'transport', title: '06 · Moving between places · Thailand Run Sheet' },
+  { slug: 'hotels', title: '07 · Hotels and the credit burn · Thailand Run Sheet' },
+  { slug: 'expenses', title: '08 · Settle up · Thailand Run Sheet' },
+  { slug: 'food', title: '09 · Eating — and the pork problem · Thailand Run Sheet' },
+  { slug: 'health', title: '10 · Health, and what Thai pharmacies will hand you · Thailand Run Sheet' },
+  { slug: 'money', title: '11 · Money on the ground · Thailand Run Sheet' },
+  { slug: 'scams', title: '12 · Scams, ranked by how often they land · Thailand Run Sheet' },
+  { slug: 'unresolved', title: '13 · Still to resolve · Thailand Run Sheet' },
+  { slug: 'checklist', title: '14 · Checklist · Thailand Run Sheet' },
+  { slug: 'emergency', title: '15 · If something goes wrong · Thailand Run Sheet' },
+  { slug: 'links', title: '16 · Links · Thailand Run Sheet' },
+];
