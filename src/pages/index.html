@@ -1,3 +1,33 @@
+<!-- Retro splash: shows on every load until clicked -->
+<style>
+#zainSplash{position:fixed;inset:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:16px;text-align:center;cursor:pointer;overflow:hidden;
+  font-family:"Comic Sans MS","Comic Sans",Impact,fantasy;background:#ff00ff;
+  background-image:repeating-linear-gradient(45deg,#ff00ff 0 24px,#00ffff 24px 48px);
+  animation:zsBg .5s steps(1) infinite}
+#zainSplash h1{margin:0;font-size:clamp(2rem,9vw,6rem);line-height:1.05;color:#ffff00;text-transform:uppercase;
+  text-shadow:4px 4px 0 #ff0000,-4px -4px 0 #0000ff,8px 8px 0 #000;animation:zsTxt .4s steps(1) infinite}
+#zainSplash marquee{width:100%;font-size:clamp(1rem,4vw,2rem);color:#00ff00;background:#000080;padding:6px 0;border:4px ridge #ffff00}
+#zainSplash .zsEnter{font:bold clamp(1rem,4vw,1.6rem) "Times New Roman",serif;color:#0000ee;background:#c0c0c0;border:4px outset #fff;padding:8px 20px;text-decoration:underline;animation:zsBlink 1s steps(1) infinite}
+#zainSplash .zsCount{font:14px "Courier New",monospace;color:#fff;background:#000;padding:2px 8px}
+@keyframes zsBg{0%{filter:hue-rotate(0)}50%{filter:hue-rotate(180deg)}}
+@keyframes zsTxt{0%{color:#ffff00}50%{color:#00ff00}}
+@keyframes zsBlink{50%{visibility:hidden}}
+@media (prefers-reduced-motion:reduce){#zainSplash,#zainSplash h1,#zainSplash .zsEnter{animation:none}}
+</style>
+<div id="zainSplash" role="dialog" aria-label="Announcement" tabindex="0">
+  <marquee scrollamount="12">★彡 BREAKING NEWS ★彡 UNDER CONSTRUCTION ★彡 BEST VIEWED IN NETSCAPE NAVIGATOR 4.0 ★彡 BREAKING NEWS ★彡</marquee>
+  <h1>ZAIN IS NOW ATTENDING THAILAND 2026 !!!!!!!!!!!!!!!!!!</h1>
+  <span class="zsEnter">&gt;&gt;&gt; CLICK HERE 2 ENTER &lt;&lt;&lt;</span>
+  <span class="zsCount">You are visitor #000001337</span>
+</div>
+<script>
+(function(){
+  var s=document.getElementById("zainSplash");
+  function close(){s.remove();}
+  s.addEventListener("click",close);
+  s.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "||e.key==="Escape")close();});
+})();
+</script>
 <section id="calendar">
 <h2><span class="idx">01</span> The calendar</h2>
 <p class="lede">Pinned items are fixed &mdash; flights, hotels, the things that can't move. Everything under them is yours to fill. Add your own with <strong>+ add</strong> in any slot; type <span class="mono">Name | 500</span> to attach a baht cost.</p>
