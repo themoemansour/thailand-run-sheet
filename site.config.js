@@ -14,4 +14,5 @@ export const pages = [
   { slug: 'emergency', title: '14 · If something goes wrong · Thailand Run Sheet' },
   { slug: 'links', title: '15 · Links · Thailand Run Sheet' },
   { slug: 'sharing', title: '16 · Share calendar and ledger · Thailand Run Sheet' },
+  { slug: 'sheet', title: '17 · Trip sheet · Thailand Run Sheet', stylesheet: '/assets/styles/sheet.css' },
 ];

@@ -1,0 +1,23 @@
+<h2><span class="idx">17</span> Trip sheet &mdash; the cost split</h2>
+<p class="lede">The Thailand cost-split spreadsheet, live. Add a row for every shared charge, mark who's in, log paybacks as they happen. Everyone with the link sees the same sheet, and the summary works out the fewest payments to settle up. Amounts in USD or baht.</p>
+
+<div class="sheet-bar">
+  <div class="stat"><span class="k">Total trip spend</span><span class="v mono" id="stTotal">$0.00</span></div>
+  <div class="stat"><span class="k">Average per person</span><span class="v mono" id="stAvg">$0.00</span></div>
+  <div class="stat"><span class="k">Charges logged</span><span class="v mono" id="stCount">0</span></div>
+  <div class="stat"><span class="k">Paid back so far</span><span class="v mono" id="stBack">$0.00</span></div>
+</div>
+
+<div class="sheet-tools">
+  <div class="filters" id="sheetTabs" role="group" aria-label="Sheet tabs">
+    <button class="chip" type="button" data-tab="ledger" aria-pressed="true">Ledger</button>
+    <button class="chip" type="button" data-tab="payments" aria-pressed="false">Payments</button>
+    <button class="chip" type="button" data-tab="summary" aria-pressed="false">Summary &amp; settle up</button>
+  </div>
+  <label class="rate">THB per $1 <input type="number" id="sheetRate" min="1" max="999" step="0.1" value="33.5"></label>
+  <button class="btn ghost" type="button" id="sheetCsv">Download CSV</button>
+</div>
+<p class="sheet-status"><span id="sheetStatus" data-phase="loading">Loading sheet…</span> · <span id="sheetCounts"></span></p>
+<p class="note sheet-setup" id="sheetSetup" hidden>Organizer: run <span class="mono">database/003_trip_sheet.sql</span> once in the Supabase SQL editor to make this sheet shared. Until then, changes here only save in your browser.</p>
+
+<div id="sheetWrap"></div>

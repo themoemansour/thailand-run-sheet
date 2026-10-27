@@ -1,0 +1,45 @@
+/* Trip sheet (page 17): spreadsheet grid on the run-sheet paper. */
+.sheet-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:.6rem;margin:0 0 1rem}
+.sheet-bar .stat{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:.75rem .95rem;box-shadow:var(--shadow)}
+.sheet-bar .k{display:block;font-family:var(--f-mono);font-size:.64rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.sheet-bar .v{display:block;font-family:var(--f-display);font-weight:800;font-size:1.7rem;line-height:1.1}
+.sheet-tools{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem}
+.sheet-tools .filters{margin:0}
+.sheet-tools .rate{display:flex;align-items:center;gap:.4rem;font-family:var(--f-mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-left:auto}
+.sheet-tools .rate input{width:78px}
+.sheet-status{font-family:var(--f-mono);font-size:.72rem;color:var(--muted);margin:.6rem 0 .5rem}
+#sheetStatus[data-phase="local"],#sheetStatus[data-phase="error"]{color:var(--coral);font-weight:600}
+#sheetStatus[data-phase="saved"]{color:var(--jade)}
+.sheet-setup{margin:0 0 .8rem;padding:.6rem .8rem;border:1px dashed var(--coral);border-radius:var(--r-sm);background:var(--coral-dim);color:var(--ink)}
+
+.grid-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--panel);box-shadow:var(--shadow);-webkit-overflow-scrolling:touch}
+.grid{border-collapse:collapse;width:100%;font-size:.84rem;min-width:max-content}
+.grid th{position:sticky;top:0;background:var(--panel-2);font-family:var(--f-mono);font-size:.64rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);text-align:left;padding:.5rem .45rem;border-bottom:1px solid var(--line);white-space:nowrap}
+.grid td{padding:.2rem .3rem;border-bottom:1px solid var(--line-soft);border-right:1px solid var(--line-soft);vertical-align:middle;white-space:nowrap}
+.grid tbody tr:hover td{background:color-mix(in srgb,var(--panel-2) 45%,transparent)}
+.grid tfoot td{background:var(--panel-2);font-weight:600;padding:.45rem;border-top:2px solid var(--ink);font-size:.78rem}
+.grid input,.grid select{font:inherit;font-size:.84rem;color:var(--ink);background:transparent;border:1px solid transparent;border-radius:4px;padding:.3rem .35rem;min-height:32px;width:auto}
+.grid input[type="text"]{width:110px}
+.grid input.wide{width:min(250px,60vw)}
+.grid input[type="number"]{width:92px;text-align:right}
+.grid input[type="date"]{width:132px}
+.grid input:hover,.grid select:hover{border-color:var(--line)}
+.grid input:focus,.grid select:focus{border-color:var(--ink);background:var(--panel);outline:none;box-shadow:0 0 0 3px var(--panel-2)}
+.grid .calc{color:var(--muted);text-align:right;background:color-mix(in srgb,var(--panel-2) 55%,transparent)}
+.grid .share{text-align:center;padding:.15rem}
+.grid th.share{text-align:center}
+.grid .share button{width:34px;height:30px;border:1px solid var(--line);border-radius:4px;background:var(--panel);color:var(--ink);font-family:var(--f-mono);font-weight:600;cursor:pointer}
+.grid .share button[data-w="1"]{background:var(--jade-dim);border-color:var(--jade);color:var(--jade)}
+.grid .share button[data-w="2"]{background:var(--saffron-dim);border-color:var(--saffron);color:var(--saffron)}
+.grid .row-tools{display:flex;align-items:center;gap:.4rem;border-right:0}
+.grid .mini{font-family:var(--f-mono);font-size:.68rem;border:1px solid var(--line);border-radius:999px;background:none;color:var(--muted);padding:.15rem .5rem;cursor:pointer}
+.grid .mini:hover{border-color:var(--ink);color:var(--ink)}
+.grid .warn{font-size:.72rem;font-weight:600;color:var(--coral)}
+.grid .x{background:none;border:0;border-radius:999px;color:var(--muted);cursor:pointer;font-size:1.1rem;line-height:1;min-width:32px;min-height:32px}
+.grid .x:hover{color:var(--coral);background:var(--coral-dim)}
+.grid .empty{color:var(--muted);text-align:center;padding:1rem}
+.grid.compact td{padding:.45rem .5rem}
+.grid .pos{color:var(--jade);font-weight:600}
+.grid .neg{color:var(--coral);font-weight:600}
+.grid .zero{color:var(--muted)}
+@media (max-width:640px){.sheet-tools .rate{margin-left:0}}

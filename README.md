@@ -1,6 +1,6 @@
 # Thailand Run Sheet
 
-Shared trip planner for Nov 13–27, 2026: Pattaya 3 nights, Phuket 5, Bangkok 6. The calendar and activity list share the landing page so drag-and-drop and tap-to-place stay intact. The other numbered sections have separate static pages, with a common 16-item menu and the original grid-paper styling. The fixed calendar itinerary covers Nov 13–26, as in the original.
+Shared trip planner for Nov 13–27, 2026: Pattaya 3 nights, Phuket 5, Bangkok 6. The calendar and activity list share the landing page so drag-and-drop and tap-to-place stay intact. The other numbered sections have separate static pages, with a common 17-item menu and the original grid-paper styling. The fixed calendar itinerary covers Nov 13–26, as in the original.
 
 ## Run locally
 

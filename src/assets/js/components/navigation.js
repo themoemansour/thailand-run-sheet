@@ -17,6 +17,7 @@ const pages = [
   ['14', 'If something goes wrong', '/emergency/', 'emergency'],
   ['15', 'Links', '/links/', 'links'],
   ['16', 'Share calendar and ledger', '/sharing/', 'sharing'],
+  ['17', 'Trip sheet (cost split)', '/sheet/', 'sheet'],
 ];
 
 export function initNav() {

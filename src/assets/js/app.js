@@ -6,6 +6,7 @@ import { initSettings, flushSettings, hasUnsavedSettings } from './pages/setting
 import { initExpenses, hasUnsavedExpense } from './pages/expenses.js';
 import { initSharing } from './pages/sharing.js';
 import { initHotelGuide } from './pages/hotels.js';
+import { initSheet } from './pages/sheet.js';
 import { $ } from './lib/ui.js';
 
 initNav();
@@ -14,6 +15,7 @@ initTheme();
 $('cdN').textContent = Math.max(0, Math.ceil((DEPART - new Date()) / 86400000));
 const page = document.body.dataset.page;
 if (page === 'hotels') initHotelGuide();
+if (page === 'sheet') initSheet();
 let store;
 let resetting = false;
 let suppressUnload = false;
